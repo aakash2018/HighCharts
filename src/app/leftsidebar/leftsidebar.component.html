@@ -1,0 +1,61 @@
+<div class="mx-0">
+	<p>Report Builder</p>
+	<ng-container *ngIf="chartData?.length > 0">
+		<div *ngFor="let items of chartData;let i = index">
+			<p>
+				+ {{items.type}}
+			</p>
+		</div>
+	</ng-container>
+	<div class="d-flex gap-2 position-absolute fixed-bottom mx-1">
+		<select class="form-select form-select-sm h-50 mx-0 w-50" aria-label="Default select example">
+			<option selected value="pdf">Pdf</option>
+			<option value="csv">Csv</option>
+			<option value="jpg">Jpeg</option>
+			<option value="png">Png</option>
+			<option value="xls">Xls</option>
+		</select>
+		<button type="button" class="btn btn-primary btn-sm w-auto p-1 h-50" (click)="openChartModal()">Build
+			Report</button>
+	</div>
+</div>
+<!-- highcharts.component.html -->
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Preview Pdf</h4>
+			</div>
+			<div class="modal-body bound-box" id="htmlData" #myBounds>
+				<ng-container *ngFor="let item of chartData;let i =index">
+					<div ngResizable ngDraggable [inBounds]="inBounds" [bounds]="myBounds" rzContainment="parent" rzHandles="all"
+						class="resizable-widget" (mouseup)="newPosition($event)" (rzStop)="onResizeStop($event,item.type)"  (endOffset)="onMoveEnd($event,item.type)" Resizable>
+						<ng-container *ngIf="item.type !== 'Table'">
+							<div [id]="'chart-container-'+i"></div>
+						</ng-container>
+						<ng-container *ngIf="item.type === 'Table'">
+							<table class="table table-bordered" style="min-height: 200px;color:#556;">
+								<tr class="table-primary">
+									<th *ngFor="let item of tableOptions.label">{{item}}</th>
+								</tr>
+								<tr *ngFor="let user of tableData">
+									<th>{{user?.id}}</th>
+									<td>{{user?.name}}</td>
+									<td>{{user?.email}}</td>
+									<td>{{user?.phone}}</td>
+								</tr>
+							</table>
+						</ng-container>
+					</div>
+
+				</ng-container>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm" (click)="closePopup()">
+					Close
+				</button>
+				<button type="button" class="btn btn-sm btn-primary" (click)="openPDF()">Create Pdf</button>
+			</div>
+		</div>
+	</div>
+</div>
