@@ -6,11 +6,15 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { RightsidebarComponent } from './rightsidebar/rightsidebar.component';
 import { LeftsidebarComponent } from './leftsidebar/leftsidebar.component';
+import { WaterfallComponent } from './waterfall/waterfall.component';
+import { HomeComponent } from './home/home.component';
 // import { AngularDraggableModule } from 'angular2-draggable';
 
 @NgModule({
   declarations: [
     AppComponent,
+    
+
     // AngularDraggableModule
   ],
   imports: [
@@ -18,7 +22,9 @@ import { LeftsidebarComponent } from './leftsidebar/leftsidebar.component';
     AppRoutingModule,
     HeaderComponent,
     RightsidebarComponent,
-    LeftsidebarComponent
+    LeftsidebarComponent,
+    WaterfallComponent,
+    HomeComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

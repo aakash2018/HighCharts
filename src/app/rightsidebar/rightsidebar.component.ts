@@ -6,7 +6,7 @@ interface Highchart {
   name: string;
   type: string;
   title: string;
-  xaxis: number[] | null[];
+  xaxis: string;
   xlabel: string;
   ylabel: string;
   yaxis: number[] | null[];
@@ -45,21 +45,13 @@ export class RightsidebarComponent implements OnInit {
     this.reactiveForm = new FormGroup({
       name: new FormControl(this.highCharts.name, [
         Validators.required,]),
-      type: new FormControl('LineChart', [
+      type: new FormControl('CombineChart', [
         Validators.required,]),
       title: new FormControl(this.highCharts.title, [
         Validators.required,]),
-      xaxis: new FormControl(this.highCharts.xaxis, [
-        Validators.required,]),
-      xlabel: new FormControl(this.highCharts.xlabel, [
+      xaxis: new FormControl('Years', [
         Validators.required,]),
       tableData: new FormControl('', [
-        Validators.required,]),
-      yaxis: new FormControl(this.highCharts.yaxis, [
-        Validators.required,]),
-      ylabel: new FormControl(this.highCharts.ylabel, [
-        Validators.required,]),
-      series: new FormControl(this.highCharts.series, [
         Validators.required,]),
     });
     // this.chartOptions = this.userData.ColumnChart;
@@ -93,6 +85,10 @@ export class RightsidebarComponent implements OnInit {
     }
 
   };
+
+  xaxisSelect(event:any):void {
+    console.log(event);
+  }
 
   onSubmit(): void {
     console.log(this.reactiveForm.value);

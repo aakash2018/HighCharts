@@ -1,26 +1,18 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
-import * as userData from './../assets/jsonfolder/chart.json';
+import * as userData from './../../assets/jsonfolder/chart.json';
 import * as echarts from 'echarts';
-// interface SeriesData {
-//   type: string;
-//   name: string;
-//   data: number[] | null[];
-// }
-// interface TableData {
-//   id?:number;
-//   name?:string;
-//   email?:string;
-//   phone?:string;
-// }
-
+import { RightsidebarComponent } from '../rightsidebar/rightsidebar.component';
+import { LeftsidebarComponent } from '../leftsidebar/leftsidebar.component';
+import { HeaderComponent } from '../header/header.component';
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-home',
+  standalone:true,
+  imports:[RightsidebarComponent,LeftsidebarComponent,HeaderComponent],
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-
-export class AppComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements OnInit, AfterViewInit  {
   title = 'highCharts';
   chartOptions!: Highcharts.Options;
   userData: any;
@@ -115,24 +107,19 @@ export class AppComponent implements OnInit, AfterViewInit {
         }
       ]
     };
+
     // Set the chart options
     this.myChart.setOption(this.options);
   }
-
   onChanges(event: any) {
-    console.log(event, "123 line");
-    if (event === 'WaterfallChart') {
-      this.setWaterfallOptions();
-    } else {
-      this.initChart();
-      const barTypes: any = {
-        'CombineChart': ['Bar Series', 'Line Series'],
-        'barChart': ['Bar Series'],
-        'AreaChart': ['Line Series'],
-      };
-      this.options.legend.data = barTypes[event || barTypes['default']];
-      this.myChart.setOption(this.options,true);
-    }
+    console.log(event,"123 line");
+    const barTypes:any = {
+      'CombineChart': ['Bar Series', 'Line Series'],
+      'barChart':['Bar Series'],
+      'AreaChart':['Line Series']
+    }; 
+    this.options.legend.data = barTypes[event|| barTypes['default']];
+    this.myChart.setOption(this.options);
     // this.typeChart = event;
     // if(event !=='Table'){
     //   setTimeout(() => {
@@ -144,70 +131,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     //   console.log(this.tableOptions);
     // }
   }
-
-  setWaterfallOptions(): void {
-    this.options.series = [];
-    this.options = {
-      title: {
-        text: 'Waterfall Chart',
-        subtext: 'Living Expenses in Shenzhen'
-      },
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow'
-        },
-        formatter: function (params: any) {
-          var tar = params[1];
-          return tar.name + '<br/>' + tar.seriesName + ' : ' + tar.value;
-        }
-      },
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-      },
-      xAxis: {
-        type: 'category',
-        splitLine: { show: false },
-        data: ['Total', 'Rent', 'Utilities', 'Transportation', 'Meals', 'Other']
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [
-        {
-          name: 'Placeholder',
-          type: 'bar',
-          stack: 'Total',
-          itemStyle: {
-            borderColor: 'transparent',
-            color: 'transparent'
-          },
-          emphasis: {
-            itemStyle: {
-              borderColor: 'transparent',
-              color: 'transparent'
-            }
-          },
-          data: [0, 1700, 1400, 1200, 300, 0]
-        },
-        {
-          name: 'Life Cost',
-          type: 'bar',
-          stack: 'Total',
-          label: {
-            show: true,
-            position: 'inside'
-          },
-          data: [2900, 1200, 300, 200, 900, 300]
-        }
-      ]
-    };
-
-    this.myChart.setOption(this.options,true);
-  }
   onTableChange(event: any) {
     console.log(event);
     // this.tableData = this.tableOptions[event];
@@ -215,16 +138,16 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit(event: any) {
-    console.log(event, "143 line check");
+    console.log(event,"143 line check");
     this.chartData = event;
-    this.options.title.text = event[event.length - 1].name;
-    const xAxisDataMap: any = {
+    this.options.title.text = event[event.length-1].name;
+    const xAxisDataMap:any = {
       'years': ['2015', '2016', '2017', '2018', '2019'],
       'months': ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
       'default': ['14-sep-2023', '15-sep-2023', '16-sep-2023', '17-sep-2023', '18-sep-2023']
     };
-
-    this.options.xAxis.data = xAxisDataMap[event[event.length - 1].xaxis.toLowerCase().trim()] || xAxisDataMap['default'];
-    this.myChart.setOption(this.options,true);
+    
+    this.options.xAxis.data = xAxisDataMap[event[event.length-1].xaxis.toLowerCase().trim()] || xAxisDataMap['default'];
+    this.myChart.setOption(this.options);
   }
 }
